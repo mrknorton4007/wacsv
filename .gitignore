@@ -1,0 +1,13 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.pyc
+
+# Flask stuff
+instance/
+.webassets-cache
+
+# Environments
+.venv/
+
+# Visual Studio
+.vscode/

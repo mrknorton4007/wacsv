@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ chat.ZPARTNERNAME }} chat
+{% endblock %}
+
+{% block content %}
+  <h1>{{ chat.ZPARTNERNAME }}</h1>
+  {% for r in records %}
+    <p>[{{ r.ZMESSAGEDATE_LOCAL.isoformat() }}] : {{ r.ZTEXT}} </p>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Chat list
+{% endblock %}
+
+{% block content %}
+  {% for r in records %}
+    <p>{{ r.ZCONTACTJID }} <a href="{{ url_for('main.view_chat', chat_session_id=r.Z_PK)}}">{{ r.ZPARTNERNAME }}</a> ({{ r.ZMESSAGECOUNTER }} messages)</p>
+  {% endfor %}
+{% endblock %}
