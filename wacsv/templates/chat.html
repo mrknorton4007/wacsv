@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}
-{{ chat.ZPARTNERNAME }} chat
-{% endblock %}
+{% block title %}WhatsApp ChatStorage Viewer | {{ chat.ZPARTNERNAME }}{% endblock %}
 
 {% block content %}
-  <h1>{{ chat.ZPARTNERNAME }}</h1>
+  <h1 class="mt-5 mb-3">{{ chat.ZPARTNERNAME }}</h1>
   {% for r in records %}
-    <p>[{{ r.ZMESSAGEDATE_LOCAL.isoformat() }}] : {{ r.ZTEXT}} </p>
+  <div class="card mb-1">
+    <div class="card-body p-3">
+      <h5 class="mt-0">{{ 'You' if r.ZISFROMME else chat.ZPARTNERNAME }}</h5>
+      <p class="mb-1">{{ r.ZTEXT }}</p>
+    </div>
+  </div>
   {% endfor %}
 {% endblock %}

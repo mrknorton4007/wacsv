@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}
-Chat list
-{% endblock %}
+{% block title %}WhatsApp ChatStorage Viewer | Chat list{% endblock %}
 
 {% block content %}
-  {% for r in records %}
-    <p>{{ r.ZCONTACTJID }} <a href="{{ url_for('main.view_chat', chat_session_id=r.Z_PK)}}">{{ r.ZPARTNERNAME }}</a> ({{ r.ZMESSAGECOUNTER }} messages)</p>
-  {% endfor %}
+  <div class="list-group">
+    {% for r in records %}
+    <a href="{{ url_for('main.view_chat', chat_session_id=r.Z_PK) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      {{ r.ZPARTNERNAME }} <!-- {{ r.ZCONTACTJID }} -->
+      <span class="badge badge-primary badge-pill">{{ r.ZMESSAGECOUNTER }}</span>
+    </a>
+    {% endfor %}
+</div>
 {% endblock %}
