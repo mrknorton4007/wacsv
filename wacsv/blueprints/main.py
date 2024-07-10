@@ -14,8 +14,12 @@ def index():
     return render_template('index.html', records=records)
 
 
-@bp.get('/chat/<int:chat_session_id>')
-def view_chat(chat_session_id):
+@bp.get('/chat/<int:chat_session_id>', defaults={'page': 1})
+@bp.get('/chat/<int:chat_session_id>/<int:page>')
+def view_chat(chat_session_id, page):
     chat = db.get_or_404(ChatSession, chat_session_id)
-    records = db.session.execute(db.select(Message).filter_by(ZCHATSESSION=chat.Z_PK).order_by(Message.ZMESSAGEDATE)).scalars()
+    records = db.paginate(
+        select=db.select(Message).filter_by(ZCHATSESSION=chat.Z_PK).order_by(Message.ZMESSAGEDATE),
+        page=page, per_page=200, max_per_page=300, error_out=False
+    )
     return render_template('chat.html', chat=chat, records=records)
