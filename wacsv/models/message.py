@@ -1,5 +1,8 @@
 from datetime import datetime
+from dateutil import tz
 from dateutil.relativedelta import relativedelta
+
+from flask import current_app
 
 from sqlalchemy import Boolean, DateTime, Integer, String, TIMESTAMP
 from sqlalchemy import ForeignKey
@@ -22,4 +25,8 @@ class Message(db.Model):
     @hybrid_property
     def ZMESSAGEDATE_LOCAL(self) -> DateTime:
         # ZMESSAGEDATE is an unixepoch timestamp, starting from 1993-01-01
-        return datetime.fromtimestamp(self.ZMESSAGEDATE) + relativedelta(years=31)
+        epoch = datetime.fromtimestamp(self.ZMESSAGEDATE)
+        epoch = epoch.replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
+        if current_app.config['WACSV_TZINFO']:
+            epoch = epoch.astimezone(tz.gettz(current_app.config['WACSV_TZINFO']))
+        return epoch + relativedelta(years=31)
