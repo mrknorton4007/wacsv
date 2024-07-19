@@ -23,3 +23,11 @@ def view_chat(chat_session_id, page):
         page=page, per_page=200, max_per_page=300, error_out=False
     )
     return render_template('chat.html', chat=chat, records=records)
+
+
+@bp.get('/raw/<int:chat_session_id>')
+def view_raw(chat_session_id):
+    chat = db.get_or_404(ChatSession, chat_session_id)
+    query = db.select(Message).filter_by(ZCHATSESSION=chat.Z_PK).order_by(Message.ZMESSAGEDATE)
+    records = db.session.execute(query).scalars()
+    return render_template('raw.html', chat=chat, records=records)
