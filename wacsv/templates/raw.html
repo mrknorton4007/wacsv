@@ -13,8 +13,11 @@
       <!-- <h1>{{ chat.ZPARTNERNAME }}</h1> -->
       <div id="chat-message-container" class="mb-3">
         {% for r in records %}
-        <p class="{{ 'text-info' if r.ZISFROMME else '' }}">
-          <strong>{{ r.ZMESSAGEDATE_LOCAL.isoformat(sep=' ', timespec='seconds') }} [{{ "You" if r.ZISFROMME else chat.ZPARTNERNAME }}]: </strong>
+        <p class="{{ 'text-info' if r.ZISFROMME else '' }}" id="msg{{ r.Z_PK }}">
+          <strong>
+            <a href="#msg{{ r.Z_PK }}" class="text-dark">{{ r.ZMESSAGEDATE_LOCAL.isoformat(sep=' ', timespec='seconds') }}</a>
+            [{{ "You" if r.ZISFROMME else chat.ZPARTNERNAME }}]:
+          </strong>
           {{ r.ZTEXT or "&nbsp;"|safe }}
         </p>
         {% endfor %}

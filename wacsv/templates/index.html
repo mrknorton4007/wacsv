@@ -6,7 +6,9 @@
   <div class="list-group">
     {% for r in records %}
     <a href="{{ url_for('main.view_chat', chat_session_id=r.Z_PK) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-      {{ r.ZPARTNERNAME }} <!-- {{ r.ZCONTACTJID }} -->
+      <p class="p-0 m-0">
+        {{ r.ZPARTNERNAME }} <small class="text-muted">{{ r.ZCONTACTJID }}</small>
+      </p>
       <span class="badge badge-primary badge-pill">{{ r.ZMESSAGECOUNTER }}</span>
     </a>
     {% endfor %}
