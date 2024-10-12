@@ -14,6 +14,10 @@ def create_app():
     # initialize the app with the extension
     db.init_app(app)
 
+    # config jinja2
+    app.jinja_env.trim_blocks = True
+    app.jinja_env.lstrip_blocks = True
+
     from wacsv.blueprints import main
     app.register_blueprint(main.bp)
 

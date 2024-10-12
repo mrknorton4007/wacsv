@@ -7,7 +7,7 @@ from flask import current_app
 from sqlalchemy import Boolean, DateTime, Integer, String, TIMESTAMP
 from sqlalchemy import ForeignKey
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import mapped_column, relationship
 
 from wacsv import db
 
@@ -21,6 +21,9 @@ class Message(db.Model):
     ZMESSAGEDATE = mapped_column(Integer)
     ZISFROMME = mapped_column(Boolean)
     ZTEXT = mapped_column(String)
+
+    # one2many
+    ZMEDIAITEMS = relationship('MediaItem', uselist=True)
 
     @hybrid_property
     def ZMESSAGEDATE_LOCAL(self) -> DateTime:

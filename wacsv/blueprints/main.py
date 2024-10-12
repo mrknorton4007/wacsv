@@ -1,7 +1,11 @@
-from flask import request, render_template, redirect, url_for, abort
+import os
+
+from flask import render_template, send_file
 from flask import Blueprint
+from flask import current_app
 
 from wacsv.models.chat_session import ChatSession
+from wacsv.models.media_item import MediaItem
 from wacsv.models.message import Message
 from wacsv import db
 
@@ -31,3 +35,10 @@ def view_raw(chat_session_id):
     query = db.select(Message).filter_by(ZCHATSESSION=chat.Z_PK).order_by(Message.ZMESSAGEDATE)
     records = db.session.execute(query).scalars()
     return render_template('raw.html', chat=chat, records=records)
+
+
+@bp.get('/media/<int:media_item_id>')
+def view_media(media_item_id):
+    media_item = db.get_or_404(MediaItem, media_item_id)
+    media_path = os.path.join(current_app.instance_path, media_item.ZMEDIALOCALPATH)
+    return send_file(media_path, mimetype=media_item.ZVCARDSTRING)

@@ -6,14 +6,14 @@
   <h1 id="chat-partnername" class="mt-5 mb-3">{{ chat.ZPARTNERNAME }}</h1>
   <nav id="chat-pagination-top" aria-label="Page navigation" class="py-1">
     <ul class="pagination justify-content-center">
-      {% for page in records.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
-      {% if page and page != records.page %}
-      <li class="page-item"><a class="page-link" href="{{ url_for('main.view_chat', chat_session_id=chat.Z_PK, page=page) }}">{{ page }}</a></li>
-      {% elif page %}
-      <li class="page-item active"><a class="page-link" href="{{ url_for('main.view_chat', chat_session_id=chat.Z_PK, page=page) }}">{{ page }}</a></li>
-      {% else %}
-      <li class="page-item disabled"><a class="page-link">...</a></li>
-      {% endif %}
+      {% for page in records.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+        {% if page and page != records.page %}
+        <li class="page-item"><a class="page-link" href="{{ url_for('main.view_chat', chat_session_id=chat.Z_PK, page=page) }}">{{ page }}</a></li>
+        {% elif page %}
+        <li class="page-item active"><a class="page-link" href="{{ url_for('main.view_chat', chat_session_id=chat.Z_PK, page=page) }}">{{ page }}</a></li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link">...</a></li>
+        {% endif %}
       {% endfor %}
     </ul>
   </nav>
@@ -25,21 +25,33 @@
           {{ "You" if r.ZISFROMME else chat.ZPARTNERNAME }}
           <a href="#msg{{ r.Z_PK }}" class="text-muted h6">{{ r.ZMESSAGEDATE_LOCAL.strftime(config.WACSV_DATEFORMAT) }}</a>
         </h5>
-        <p class="mb-1">{{ r.ZTEXT or "&nbsp;"|safe }}</p>
+        {% for m in r.ZMEDIAITEMS %}
+          {% if m.ZMEDIALOCALPATH %}
+          <a class="chat-media-local" href="{{ url_for('main.view_media', media_item_id=m.Z_PK) }}">{{ m.ZMEDIALOCALPATH }}</a>
+          {% elif m.ZMEDIAURL %}
+          <a class="chat-media-url" href="{{ m.ZMEDIAURL }}">{{ m.ZMEDIAURL }}</a>
+          {% endif %}
+          {% if m.ZTITLE %}
+          <p class="chat-media-title mb-1">{{ m.ZTITLE }}</p>
+          {% endif %}
+        {% endfor %}
+        {% if r.ZTEXT %}
+        <p class="chat-text mb-1">{{ r.ZTEXT or "&nbsp;"|safe }}</p>
+        {% endif %}
       </div>
     </div>
     {% endfor %}
   </div>
   <nav id="chat-pagination-bottom" aria-label="Page navigation" class="py-1">
     <ul class="pagination justify-content-center">
-      {% for page in records.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
-      {% if page and page != records.page %}
-      <li class="page-item"><a class="page-link" href="{{ url_for('main.view_chat', chat_session_id=chat.Z_PK, page=page) }}">{{ page }}</a></li>
-      {% elif page %}
-      <li class="page-item active"><a class="page-link" href="{{ url_for('main.view_chat', chat_session_id=chat.Z_PK, page=page) }}">{{ page }}</a></li>
-      {% else %}
-      <li class="page-item disabled"><a class="page-link">...</a></li>
-      {% endif %}
+      {% for page in records.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+        {% if page and page != records.page %}
+        <li class="page-item"><a class="page-link" href="{{ url_for('main.view_chat', chat_session_id=chat.Z_PK, page=page) }}">{{ page }}</a></li>
+        {% elif page %}
+        <li class="page-item active"><a class="page-link" href="{{ url_for('main.view_chat', chat_session_id=chat.Z_PK, page=page) }}">{{ page }}</a></li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link">...</a></li>
+        {% endif %}
       {% endfor %}
     </ul>
   </nav>
