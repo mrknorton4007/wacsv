@@ -23,7 +23,7 @@
       <div class="card-body p-3">
         <h5 class="mt-0">
           {{ "You" if r.ZISFROMME else chat.ZPARTNERNAME }}
-          <a href="#msg{{ r.Z_PK }}" class="text-muted h6">{{ r.ZMESSAGEDATE_LOCAL.strftime(config.WACSV_DATEFORMAT) }}</a>
+          <a href="{{ url_for('main.view_permalink', message_id=r.Z_PK) }}" class="text-muted h6">{{ r.ZMESSAGEDATE_LOCAL.strftime(config.WACSV_DATEFORMAT) }}</a>
         </h5>
         {% for m in r.ZMEDIAITEMS %}
           {% if m.ZMEDIALOCALPATH %}

@@ -4,6 +4,7 @@ Browse your WhatsApp Desktop backups.
 ## Config
 1. Set the correct timezone and date format in `wacsv/__init__.py` file.
 2. Copy `ChatStorage.sqlite` inside the `instance` folder.
+3. Copy `Message/Media` folder inside the `instance` folder.
 
 ## Virtualenv
 

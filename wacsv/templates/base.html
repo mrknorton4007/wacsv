@@ -14,10 +14,23 @@
     </style>
   </head>
   <body>
-    <nav class="navbar fixed-top navbar-dark" style="background-color: #075E54;">
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark" style="background-color: #075E54;">
       <div class="container">
         <a href="{{ url_for('main.index') }}" class="navbar-brand">WhatsApp</a>
-        <span class="navbar-text">ChatStorage Viewer</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+          <div class="navbar-nav mr-auto">
+            <span class="navbar-text d-none d-md-block">ChatStorage Viewer</span>
+          </div>
+          <form class="form-inline" action="{{ url_for('main.view_search') }}" method="get">
+            <input type="hidden" name="chat_id" value="{{ chat.Z_PK if chat is defined else request.args.get('chat_id', '') }}">
+            <input type="search" name="q" value="{{ request.args.get('q', '') }}" class="form-control"
+              placeholder="{{ 'Search in this chat...' if chat is defined else 'Search everywhere...' }}"
+              aria-label="Search" pattern="[A-Za-z0-9]{3,}" required />
+          </form>
+        </div>
       </div>
     </nav>
     <div class="container">
